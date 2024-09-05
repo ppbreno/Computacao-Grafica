@@ -1,0 +1,79 @@
+object Form1: TForm1
+  Left = 256
+  Height = 692
+  Top = 145
+  Width = 877
+  Caption = 'Form1'
+  ClientHeight = 692
+  ClientWidth = 877
+  Menu = MainMenu1
+  OnCreate = FormCreate
+  LCLVersion = '3.4.0.0'
+  object Image1: TImage
+    Left = 8
+    Height = 432
+    Top = 16
+    Width = 416
+    OnClick = Image1Click
+    OnMouseDown = Image1MouseDown
+    OnMouseMove = Image1MouseMove
+    OnMouseUp = Image1MouseUp
+  end
+  object Image2: TImage
+    Left = 440
+    Height = 432
+    Top = 160
+    Width = 416
+    OnClick = Image2Click
+  end
+  object MainMenu1: TMainMenu
+    Left = 832
+    Top = 8
+    object MenuItem1: TMenuItem
+      Caption = '&Arquivo'
+      OnClick = MenuItem1Click
+      object MenuItem2: TMenuItem
+        Caption = 'A&brir'
+        OnClick = MenuItem2Click
+      end
+      object MenuItem8: TMenuItem
+        Caption = 'Salvar'
+      end
+      object Separator1: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem9: TMenuItem
+        Caption = 'Sair'
+        OnClick = MenuItem9Click
+      end
+    end
+    object MenuItem3: TMenuItem
+      Caption = 'Operações'
+      OnClick = MenuItem3Click
+      object MenuItem4: TMenuItem
+        Caption = 'Imagem cinza'
+        OnClick = MenuItem4Click
+      end
+      object MenuItem5: TMenuItem
+        Caption = 'Desenha Pixel'
+        OnClick = MenuItem5Click
+      end
+      object MenuItem6: TMenuItem
+        Caption = 'Desenha Reta'
+        OnClick = MenuItem6Click
+      end
+      object MenuItem7: TMenuItem
+        Caption = 'Desenha Cicunferência'
+        OnClick = MenuItem7Click
+      end
+      object MenuItem10: TMenuItem
+        Caption = 'Desenha Reta por Pixels'
+        OnClick = MenuItem10Click
+      end
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 832
+    Top = 64
+  end
+end
