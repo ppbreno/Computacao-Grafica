@@ -4,8 +4,8 @@ object Form1: TForm1
   Top = 145
   Width = 877
   Caption = 'Form1'
-  ClientHeight = 692
-  ClientWidth = 877
+  ClientHeight = 0
+  ClientWidth = 0
   Menu = MainMenu1
   OnCreate = FormCreate
   LCLVersion = '3.4.0.0'
@@ -55,20 +55,24 @@ object Form1: TForm1
         OnClick = MenuItem4Click
       end
       object MenuItem5: TMenuItem
-        Caption = 'Desenha Pixel'
+        Caption = 'Livre'
         OnClick = MenuItem5Click
       end
       object MenuItem6: TMenuItem
-        Caption = 'Desenha Reta'
+        Caption = 'Reta'
         OnClick = MenuItem6Click
       end
       object MenuItem7: TMenuItem
-        Caption = 'Desenha Cicunferência'
+        Caption = 'Cicunferência'
         OnClick = MenuItem7Click
       end
       object MenuItem10: TMenuItem
-        Caption = 'Desenha Reta por Pixels'
+        Caption = 'Reta por equação da reta'
         OnClick = MenuItem10Click
+      end
+      object MenuItem11: TMenuItem
+        Caption = 'Reta por equação paramétrica'
+        OnClick = MenuItem11Click
       end
     end
   end
