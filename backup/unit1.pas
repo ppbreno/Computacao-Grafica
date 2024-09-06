@@ -18,6 +18,7 @@ type
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
+    MenuItem12: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -39,6 +40,7 @@ type
     procedure Image2Click(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
+    procedure MenuItem12Click(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
@@ -55,7 +57,7 @@ type
 
 var
   Form1: TForm1;
-  op, desenha, X1, Y1, x2, y2, raio, inc, xi, yi : integer;
+  op, desenha, X1, Y1, raio, inc : integer;
   m, t : Double;
 
 implementation
@@ -139,6 +141,11 @@ begin
                       Y1 := Y;
                       Image1.Canvas.MoveTo(X,Y);
                  end;
+  if op = 6 then begin
+                      X1 := X;
+                      Y1 := Y;
+                      Image1.Canvas.MoveTo(X,Y);
+                 end;
 end;
 
 procedure TForm1.Image1Click(Sender: TObject);
@@ -170,7 +177,9 @@ end;
 
 procedure TForm1.Image1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+var dx, dy, d, xi, yi, x2, y2, incE, incNE, slope: Integer;
 begin
+
   if op = 1 then desenha := 0;
   if op = 2 then begin
                  image1.Canvas.Pen.Color := clred;
@@ -190,12 +199,12 @@ begin
                          if (y1 < y2) then
                             begin
                                  for yi:=y1 to y2 do
-                                     Image1.Canvas.Pixels[xi,yi] := clRed;
+                                     Image1.Canvas.Pixels[x1,yi] := clRed;
                             end
                          else
                              begin
-                                 for yi:=y1 to y2 do
-                                     Image1.Canvas.Pixels[xi,yi] := clRed;
+                                 for yi:=y2 to y1 do
+                                     Image1.Canvas.Pixels[x1,yi] := clRed;
                              end;
                     end
                  else begin
@@ -232,6 +241,7 @@ begin
                                         end;
                        end;
                    end;
+                   end;
   if op = 5 then begin
                  t:=0;
                  x2 := X;
@@ -244,7 +254,43 @@ begin
                         t := t+0.001;
                    end;
                  end;
-  end;
+  if op = 6 then begin
+        x2 := X;
+        y2 := Y;
+
+        if (x1 > x2) then begin
+            x2 := x1;
+            y2 := y1;
+            x1 := X;
+            y1 := Y;
+        end;
+
+        dx := x2 - x1;
+        dy := y2 - y1;
+
+        if (dy < 0) then begin
+            slope := -1;
+            dy := -dy;
+            end
+        else
+           slope := 1;
+
+        incE := 2 * dy;
+        incNE := 2 * dy - 2 * dx;
+        d := 2 * dy - dx;
+        yi := y1;
+        xi := x1;
+        while (xi <= x2) do
+          begin
+            Image1.Canvas.Pixels[xi,yi] := clRed;
+            if (d <= 0) then
+              d := d + incE
+            else begin
+              d := d + incNE;
+              yi := yi + slope;
+              end;
+            xi := xi + 1;
+         end;
 end;
 
 procedure TForm1.Image2Click(Sender: TObject);
@@ -259,7 +305,12 @@ end;
 
 procedure TForm1.MenuItem11Click(Sender: TObject);
 begin
-  op := 5;
+     op := 5;
+end;
+
+procedure TForm1.MenuItem12Click(Sender: TObject);
+begin
+     op := 6;
 end;
 
 end.

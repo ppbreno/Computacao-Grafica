@@ -4,11 +4,11 @@ object Form1: TForm1
   Top = 145
   Width = 877
   Caption = 'Form1'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 692
+  ClientWidth = 877
   Menu = MainMenu1
   OnCreate = FormCreate
-  LCLVersion = '3.4.0.0'
+  LCLVersion = '3.0.0.3'
   object Image1: TImage
     Left = 8
     Height = 432
@@ -73,6 +73,10 @@ object Form1: TForm1
       object MenuItem11: TMenuItem
         Caption = 'Reta por equação paramétrica'
         OnClick = MenuItem11Click
+      end
+      object MenuItem12: TMenuItem
+        Caption = 'Reta por Bresenham'
+        OnClick = MenuItem12Click
       end
     end
   end
