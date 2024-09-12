@@ -177,7 +177,7 @@ end;
 
 procedure TForm1.Image1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var dx, dy, d, xi, yi, x2, y2, incE, incNE, slope: Integer;
+var dx, dy, d, xi, yi, x2, y2, dE, dNE: Integer;
 begin
 
   if op = 1 then desenha := 0;
@@ -255,42 +255,31 @@ begin
                    end;
                  end;
   if op = 6 then begin
-        x2 := X;
-        y2 := Y;
-
-        if (x1 > x2) then begin
-            x2 := x1;
-            y2 := y1;
-            x1 := X;
-            y1 := Y;
-        end;
-
-        dx := x2 - x1;
-        dy := y2 - y1;
-
-        if (dy < 0) then begin
-            slope := -1;
-            dy := -dy;
-            end
-        else
-           slope := 1;
-
-        incE := 2 * dy;
-        incNE := 2 * dy - 2 * dx;
-        d := 2 * dy - dx;
-        yi := y1;
-        xi := x1;
-        while (xi <= x2) do
-          begin
-            Image1.Canvas.Pixels[xi,yi] := clRed;
-            if (d <= 0) then
-              d := d + incE
-            else begin
-              d := d + incNE;
-              yi := yi + slope;
-              end;
-            xi := xi + 1;
-         end;
+                 x2 := X;
+                 y2 := Y;
+                 dx := x2-x1;
+                 dy := y2-y1;
+                 d := 2*dy - dx;
+                 dE := 2*dy;
+                 dNE := 2*(dy-dx);
+                 xi := x1;
+                 yi := y1;
+                 Image1.Canvas.Pixels[xi,yi] := clRed;
+                 if(x1 < x2) then inc := 1
+                 else inc := -1;
+                 while (xi < x2) do begin
+                    if (d <0) then begin
+                       d := d + dE;
+                       xi := xi + inc;
+                    end
+                    else begin
+                         d := d+dNE;
+                         xi := xi + inc;
+                         yi := yi + inc;
+                    end;
+                    Image1.Canvas.Pixels[xi,yi] := clRed;
+                 end;
+  end;
 end;
 
 procedure TForm1.Image2Click(Sender: TObject);
