@@ -78,6 +78,10 @@ object Form1: TForm1
         Caption = 'Reta por Bresenham'
         OnClick = MenuItem12Click
       end
+      object MenuItem13: TMenuItem
+        Caption = 'Circunferência por equação'
+        OnClick = MenuItem13Click
+      end
     end
   end
   object OpenDialog1: TOpenDialog
