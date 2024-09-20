@@ -20,6 +20,8 @@ type
     MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
     MenuItem13: TMenuItem;
+    MenuItem14: TMenuItem;
+    MenuItem15: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -43,6 +45,8 @@ type
     procedure MenuItem11Click(Sender: TObject);
     procedure MenuItem12Click(Sender: TObject);
     procedure MenuItem13Click(Sender: TObject);
+    procedure MenuItem14Click(Sender: TObject);
+    procedure MenuItem15Click(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
@@ -153,6 +157,16 @@ begin
                       Y1 := Y;
                       Image1.Canvas.MoveTo(X,Y);
   end;
+  if op = 8 then begin
+                      X1 := X;
+                      Y1 := Y;
+                      Image1.Canvas.MoveTo(X,Y);
+  end;
+  if op = 9 then begin
+                      X1 := X;
+                      Y1 := Y;
+                      Image1.Canvas.MoveTo(X,Y);
+  end;
 end;
 
 procedure TForm1.Image1Click(Sender: TObject);
@@ -184,7 +198,8 @@ end;
 
 procedure TForm1.Image1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var dx, dy, xi, yi, incx, incy, x2, y2, err, e2: Integer;
+var dx, dy, xi, yi, incx, incy, x2, y2, err, e2, xn: Integer;
+    cos1, sen1 : Double;
 begin
 
   if op = 1 then desenha := 0;
@@ -306,8 +321,36 @@ begin
        raio := trunc(sqrt((X1-x2)*(X1-X2)+(y1-y2)*(y1-y2)));
        for xi := -raio to raio do begin
            yi := trunc(sqrt((raio*raio) - (xi*xi)));
-           Image1.Canvas.Pixels[xi, yi] := clRed;
-           Image1.Canvas.Pixels[xi, -yi] := clRed;
+           Image1.Canvas.Pixels[xi+x1, yi+y1] := clRed;
+           Image1.Canvas.Pixels[xi+x1, -yi+y1] := clRed;
+       end;
+  end;
+  if op = 8 then begin
+       x2 := X;
+       y2 := Y;
+       raio := trunc(sqrt((X1-x2)*(X1-X2)+(y1-y2)*(y1-y2)));
+       t := 0;
+       while (t <= 6.28) do begin
+             xi := trunc(raio * Cos(t));
+             yi := trunc(raio * Sin(t));
+             Image1.Canvas.Pixels[xi+x1, yi+y1] := clRed;
+             t := t+0.01;
+       end;
+  end;
+  if op = 9 then begin
+       x2 := X;
+       y2 := Y;
+       raio := trunc(sqrt((X1-x2)*(X1-X2)+(y1-y2)*(y1-y2)));
+       xi := raio;
+       yi := 0;
+       cos1 := Cos(1);
+       sen1 := Sin(1);
+       t := 1;
+       while (t <= 360) do begin
+             xn := trunc(xi * cos1 - yi * sen1);
+             yi := trunc(xi * sen1 + yi * cos1);
+             Image1.Canvas.Pixels[xi+x1, yi+y1] := clRed;
+             t := t+1;
        end;
   end;
 end;
@@ -335,6 +378,16 @@ end;
 procedure TForm1.MenuItem13Click(Sender: TObject);
 begin
      op := 7;
+end;
+
+procedure TForm1.MenuItem14Click(Sender: TObject);
+begin
+     op := 8;
+end;
+
+procedure TForm1.MenuItem15Click(Sender: TObject);
+begin
+     op := 9;
 end;
 
 end.
