@@ -22,6 +22,7 @@ type
     MenuItem13: TMenuItem;
     MenuItem14: TMenuItem;
     MenuItem15: TMenuItem;
+    MenuItem16: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -47,6 +48,7 @@ type
     procedure MenuItem13Click(Sender: TObject);
     procedure MenuItem14Click(Sender: TObject);
     procedure MenuItem15Click(Sender: TObject);
+    procedure MenuItem16Click(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
@@ -167,6 +169,11 @@ begin
                       Y1 := Y;
                       Image1.Canvas.MoveTo(X,Y);
   end;
+  if op = 10 then begin
+                      X1 := X;
+                      Y1 := Y;
+                      Image1.Canvas.MoveTo(X,Y);
+  end;
 end;
 
 procedure TForm1.Image1Click(Sender: TObject);
@@ -198,7 +205,7 @@ end;
 
 procedure TForm1.Image1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var dx, dy, xi, yi, incx, incy, x2, y2, err, e2, xn: Integer;
+var dx, dy, xi, yi, incx, incy, x2, y2, err, e2, xn, dE, dSE, h: Integer;
     cos1, sen1 : Double;
 begin
 
@@ -328,13 +335,23 @@ begin
   if op = 8 then begin
        x2 := X;
        y2 := Y;
-       raio := trunc(sqrt((X1-x2)*(X1-X2)+(y1-y2)*(y1-y2)));
+       raio := trunc(sqrt((X1-x2)*(X1-x2)+(Y1-y2)*(Y1-y2)));
        t := 0;
-       while (t <= 6.28) do begin
-             xi := trunc(raio * Cos(t));
-             yi := trunc(raio * Sin(t));
-             Image1.Canvas.Pixels[xi+x1, yi+y1] := clRed;
-             t := t+0.01;
+       while (t <= 1.57) do
+       begin
+         xi := trunc(raio * Cos(t));
+         yi := trunc(raio * Sin(t));
+
+        Image1.Canvas.Pixels[xi + X1, yi + Y1] := clRed;  // 1º octante
+        Image1.Canvas.Pixels[-xi + X1, yi + Y1] := clRed; // 2º octante
+        Image1.Canvas.Pixels[xi + X1, -yi + Y1] := clRed; // 3º octante
+        Image1.Canvas.Pixels[-xi + X1, -yi + Y1] := clRed; // 4º octante
+        Image1.Canvas.Pixels[yi + X1, xi + Y1] := clRed;  // 5º octante
+        Image1.Canvas.Pixels[-yi + X1, xi + Y1] := clRed; // 6º octante
+        Image1.Canvas.Pixels[yi + X1, -xi + Y1] := clRed; // 7º octante
+        Image1.Canvas.Pixels[-yi + X1, -xi + Y1] := clRed; // 8º octante
+
+        t := t + 0.01;
        end;
   end;
   if op = 9 then begin
@@ -350,8 +367,52 @@ begin
              xn := trunc(xi * cos1 - yi * sen1);
              yi := trunc(xi * sen1 + yi * cos1);
              Image1.Canvas.Pixels[xi+x1, yi+y1] := clRed;
-             t++;
+             t := t+1;
        end;
+  end;
+  if op = 10 then begin
+       x2 := X;
+       y2 := Y;
+       raio := trunc(sqrt((X1-x2)*(X1-X2)+(y1-y2)*(y1-y2)));
+       xi := 0;
+       yi := raio;
+       h := 1 - raio;
+       dE := 3;
+       dSE := -2 * raio + 5;
+
+        // Plota o primeiro ponto da circunferência
+        Image1.Canvas.Pixels[x1 + xi, y1 + yi] := clRed;
+
+        while xi < yi do
+        begin
+          if h < 0 then
+          begin
+            // Seleciona E
+            h := h + dE;
+            dE := dE + 2;
+            dSE := dSE + 2;
+          end
+          else
+          begin
+            // Seleciona SE
+            h := h + dSE;
+            dE := dE + 2;
+            dSE := dSE + 4;
+            yi := yi - 1;
+          end;
+
+          xi := xi + 1;
+
+          // Plota os 8 pontos pela simetria
+          Image1.Canvas.Pixels[x1 + xi, y1 + yi] := clRed;  // 1º octante
+          Image1.Canvas.Pixels[x1 - xi, y1 + yi] := clRed;  // 2º octante
+          Image1.Canvas.Pixels[x1 + xi, y1 - yi] := clRed;  // 3º octante
+          Image1.Canvas.Pixels[x1 - xi, y1 - yi] := clRed;  // 4º octante
+          Image1.Canvas.Pixels[x1 + yi, y1 + xi] := clRed;  // 5º octante
+          Image1.Canvas.Pixels[x1 - yi, y1 + xi] := clRed;  // 6º octante
+          Image1.Canvas.Pixels[x1 + yi, y1 - xi] := clRed;  // 7º octante
+          Image1.Canvas.Pixels[x1 - yi, y1 - xi] := clRed;  // 8º octante
+  end;
   end;
 end;
 
@@ -388,6 +449,11 @@ end;
 procedure TForm1.MenuItem15Click(Sender: TObject);
 begin
      op := 9;
+end;
+
+procedure TForm1.MenuItem16Click(Sender: TObject);
+begin
+     op := 10;
 end;
 
 end.

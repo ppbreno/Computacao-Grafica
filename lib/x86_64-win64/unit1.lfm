@@ -4,8 +4,8 @@ object Form1: TForm1
   Top = 145
   Width = 877
   Caption = 'Form1'
-  ClientHeight = 692
-  ClientWidth = 877
+  ClientHeight = 0
+  ClientWidth = 0
   Menu = MainMenu1
   OnCreate = FormCreate
   LCLVersion = '3.0.0.3'
@@ -89,6 +89,10 @@ object Form1: TForm1
       object MenuItem15: TMenuItem
         Caption = 'Circunferência por rotações'
         OnClick = MenuItem15Click
+      end
+      object MenuItem16: TMenuItem
+        Caption = 'Circunferência por Bresenham'
+        OnClick = MenuItem16Click
       end
     end
   end
