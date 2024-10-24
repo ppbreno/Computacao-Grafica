@@ -14,6 +14,7 @@ type
   TForm1 = class(TForm)
     Image1: TImage;
     Image2: TImage;
+    Form3: Tform3;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
@@ -23,6 +24,7 @@ type
     MenuItem14: TMenuItem;
     MenuItem15: TMenuItem;
     MenuItem16: TMenuItem;
+    MenuItem17: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -49,6 +51,7 @@ type
     procedure MenuItem14Click(Sender: TObject);
     procedure MenuItem15Click(Sender: TObject);
     procedure MenuItem16Click(Sender: TObject);
+    procedure MenuItem17Click(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
@@ -105,12 +108,12 @@ end;
 
 procedure TForm1.MenuItem5Click(Sender: TObject);
 begin
-  op := 1;    // desenha pixel
+  op := 1;
 end;
 
 procedure TForm1.MenuItem6Click(Sender: TObject);
 begin
-  op := 2;    // desenha retas
+  op := 2;
 end;
 
 procedure TForm1.MenuItem7Click(Sender: TObject);
@@ -205,8 +208,8 @@ end;
 
 procedure TForm1.Image1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var dx, dy, xi, yi, incx, incy, x2, y2, err, e2, xn, dE, dSE, h: Integer;
-    cos1, sen1 : Double;
+var dx, dy, xi, yi, incx, incy, x2, y2, err, e2, dE, dSE, h, i: Integer;
+    cos1, sen1, xn, yn, xaux : Double;
 begin
 
   if op = 1 then desenha := 0;
@@ -286,29 +289,24 @@ begin
   if op = 6 then begin
        x2 := X;
        y2 := Y;
-       // Calcula as diferenças nas coordenadas
+
        dx := Abs(x2 - x1);
        dy := Abs(y2 - y1);
 
-       // Determina a direção de incremento
        if x1 < x2 then incx := 1 else incx := -1;
        if y1 < y2 then incy := 1 else incy := -1;
 
-       // Inicializa o erro
        err := dx - dy;
 
        while True do
        begin
-            // Desenha o pixel atual
+
             Image1.Canvas.Pixels[x1, y1] := clRed;
 
-            // Se o ponto final for atingido, interrompe o loop
             if (x1 = x2) and (y1 = y2) then Break;
 
-            // Calcula o erro para o próximo ponto
             e2 := 2 * err;
 
-            // Ajusta o erro e as coordenadas
             if e2 > -dy then
             begin
                  err := err - dy;
@@ -357,18 +355,20 @@ begin
   if op = 9 then begin
        x2 := X;
        y2 := Y;
-       raio := trunc(sqrt((X1-x2)*(X1-X2)+(y1-y2)*(y1-y2)));
-       xi := raio;
-       yi := 0;
-       cos1 := Cos(1);
-       sen1 := Sin(1);
-       t := 1;
-       while (t <= 360) do begin
-             xn := trunc(xi * cos1 - yi * sen1);
-             yi := trunc(xi * sen1 + yi * cos1);
-             Image1.Canvas.Pixels[xi+x1, yi+y1] := clRed;
-             t := t+1;
-       end;
+       xn := sqrt((X1-x2)*(X1-x2)+(Y1-y2)*(Y1-y2));
+       yn := 0;
+
+       cos1 := Cos(Pi/180);
+       sen1 := Sin(Pi/180);
+
+       for i := 1 to 360 do
+           begin
+           Image1.Canvas.Pixels[round(x1 + xn), round(y1 + yn)] := clRed;
+
+           xaux := xn * cos1 - yn * sen1;
+           yn := xn * sen1 + yn * cos1;
+           xn := xaux;
+           end;
   end;
   if op = 10 then begin
        x2 := X;
@@ -380,21 +380,18 @@ begin
        dE := 3;
        dSE := -2 * raio + 5;
 
-        // Plota o primeiro ponto da circunferência
         Image1.Canvas.Pixels[x1 + xi, y1 + yi] := clRed;
 
         while xi < yi do
         begin
           if h < 0 then
           begin
-            // Seleciona E
             h := h + dE;
             dE := dE + 2;
             dSE := dSE + 2;
           end
           else
           begin
-            // Seleciona SE
             h := h + dSE;
             dE := dE + 2;
             dSE := dSE + 4;
@@ -403,7 +400,6 @@ begin
 
           xi := xi + 1;
 
-          // Plota os 8 pontos pela simetria
           Image1.Canvas.Pixels[x1 + xi, y1 + yi] := clRed;  // 1º octante
           Image1.Canvas.Pixels[x1 - xi, y1 + yi] := clRed;  // 2º octante
           Image1.Canvas.Pixels[x1 + xi, y1 - yi] := clRed;  // 3º octante
@@ -454,6 +450,10 @@ end;
 procedure TForm1.MenuItem16Click(Sender: TObject);
 begin
      op := 10;
+end;
+
+procedure TForm1.MenuItem17Click(Sender: TObject);
+begin
 end;
 
 end.

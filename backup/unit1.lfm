@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 256
+  Left = 262
   Height = 692
-  Top = 145
+  Top = 125
   Width = 877
   Caption = 'Form1'
-  ClientHeight = 0
-  ClientWidth = 0
+  ClientHeight = 692
+  ClientWidth = 877
   Menu = MainMenu1
   OnCreate = FormCreate
   LCLVersion = '3.0.0.3'
@@ -94,6 +94,10 @@ object Form1: TForm1
         Caption = 'Circunferência por Bresenham'
         OnClick = MenuItem16Click
       end
+    end
+    object MenuItem17: TMenuItem
+      Caption = 'Projeção'
+      OnClick = MenuItem17Click
     end
   end
   object OpenDialog1: TOpenDialog
